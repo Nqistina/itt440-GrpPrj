@@ -1,5 +1,7 @@
 import socket
 import threading
+import time
+import sys
 
 def handle_client(client_socket):
     global stop_flag
@@ -12,14 +14,17 @@ def handle_client(client_socket):
 
     # Send the response back to the client
     client_socket.sendall(response)
-    print("client message sent")
+    time.sleep(1)
+    print("\nServer responded")
+    time.sleep(2)
 
     # Close the client socket
     client_socket.close()
 
     if client_socket.fileno() == -1:
         # Handle the case where the client closes the connection
-        print("client closed the connection")
+        print("Client closed the connection")
+        time.sleep(1)
         stop_flag = True
 
 
@@ -32,13 +37,21 @@ server_socket.bind(("192.168.56.102", 8080))
 
 # Start listening for incoming client connections
 server_socket.listen()
-print("waiting for client connections...")
+print("waiting for client connections")
+for i in range(3):
+    time.sleep(.5)
+    sys.stdout.write('.')
+    sys.stdout.flush()
 
 while True:
     # Wait and accept incoming client connection
     client_socket, client_address = server_socket.accept()
-    print("connection from", client_address)
-    print("waiting for client message...")
+    print("\nconnection from", client_address)
+    print("waiting for client message")
+    for i in range(3):
+        time.sleep(.5)
+        sys.stdout.write('.')
+        sys.stdout.flush()
 
     # Create a thread to handle the client
     client_thread = threading.Thread(target=handle_client, args=(client_socket,))
@@ -50,4 +63,4 @@ while True:
 
 #close the server
 server_socket.close()
-print("server terminated successfully")
+print("Server terminated successfully")

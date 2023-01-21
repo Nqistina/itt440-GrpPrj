@@ -13,4 +13,6 @@ variable to use in order to stop the infinite loop
 
 thread.join
 need to join thread before closing server socket, if not the other thread will raise an exception
+The join part means the main program will wait for the thread to end before continuing.
+Without join, the main program will end and the thread will continue
 
