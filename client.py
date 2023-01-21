@@ -1,36 +1,22 @@
 import socket
-import threading
-
-# Server-side function that handles incoming client requests
-def handle_client(client_socket):
-  # Receive incoming message from client
-  request = client_socket.recv(1024)
-
-  # Manipulate the incoming message by appending "from server xyz"
-  response = request + " from server xyz"
-
-  # Send the response back to the client
-  client_socket.send(response)
-
-  # Close the client socket
-  client_socket.close()
 
 # Create a TCP/IP socket
-server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-# Bind the socket to a specific host and port
-server_socket.bind(("localhost", 8080))
+# Connect the socket to the server
+client_socket.connect(("192.168.0.121", 8080))
 
-# Start listening for incoming client connections
-server_socket.listen()
+# Prompt the user to enter a message
+message = input("Enter a message: ")
 
-while True:
-  # Wait and accept incoming client connection
-  client_socket, client_address = server_socket.accept()
+# Send the message to the server
+client_socket.sendall(message.encode())
 
-  # Start a new thread to handle the incoming client request
-  client_thread = threading.Thread(target=handle_client, args=(client_socket,))
-  client_thread.start()
+# Receive the response from the server
+response = client_socket.recv(1024)
 
-# Close the server socket
-server_socket.close()
+# Print the response
+print("Response from server:", response.decode())
+
+# Close the client socket
+client_socket.close()
