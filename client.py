@@ -4,7 +4,8 @@ import socket
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 # Connect the socket to the server
-client_socket.connect(("192.168.0.121", 8080))
+client_socket.connect(("192.168.56.102", 8080))
+print("Connected to server")
 
 # Prompt the user to enter a message
 message = input("Enter a message: ")
@@ -20,3 +21,4 @@ print("Response from server:", response.decode())
 
 # Close the client socket
 client_socket.close()
+print("Closed client socket")

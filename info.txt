@@ -1,0 +1,16 @@
+socket.sendall
+ is a high-level Python-only method that sends the entire buffer you pass or throws an exception. It does that by calling socket.send until everything has been sent or an error occurs.
+If you're using TCP with blocking sockets and don't want to be bothered by internals (this is the case for most simple network applications), use sendall.
+
+message.encode
+data send through bytes. so encode the string message to bytes send to server. Server send response in bytes and then client decode to string message
+
+global 
+set global variable to be used in anywhere in the code
+
+stop flag
+variable to use in order to stop the infinite loop
+
+thread.join
+need to join thread before closing server socket, if not the other thread will raise an exception
+
