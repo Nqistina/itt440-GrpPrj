@@ -5,6 +5,14 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <signal.h>
+
+int server_socket;
+void interrupt_handler(int signal) {
+  printf("\n Closing server socket...\n");
+  close(server_socket);
+  exit(0);
+}
 
 void process_connection(int client_socket) {
 char client_message[1000];
@@ -58,6 +66,9 @@ printf("Bind Success\n");
 // Start listening for incoming connections
 listen(server_socket, 5);
 printf("Waiting for incoming connections...\n");
+
+// Register the interrupt handler
+signal(SIGINT, interrupt_handler);
 
 // Accept incoming connections
 while (1) {
